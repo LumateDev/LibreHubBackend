@@ -1,6 +1,5 @@
-﻿using LibreHub.Interfaces;
-using LibreHub.Models;
-using LibreHub.Services;
+﻿
+using LIbreHubBackend.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibreHub.Controllers
@@ -18,18 +17,12 @@ namespace LibreHub.Controllers
         }
 
         [HttpGet("/getBooks")]
-        public async Task<IActionResult> GetBooks()
+        public async Task<IActionResult> GetBooksAsync()
         {
-            return Ok(_bookService.GetBooks());
+   
+            var books = await _bookService.GetBooksAsync();
+            return Ok(books);
         }
-
-
-
-        [HttpGet("/aboba")]
-        public async Task<IActionResult> Aboba()
-        {
-            string a = "fkldsjfl";
-            return Ok(a);
-        }
+       
     }
 }

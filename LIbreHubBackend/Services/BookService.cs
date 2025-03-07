@@ -1,21 +1,40 @@
-﻿using LibreHub.Interfaces;
-using LibreHub.Models;
+﻿using LibreHub.Models;
+using LIbreHubBackend.Domain;
+using LIbreHubBackend.Interfaces;
+using LIbreHubBackend.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 
 namespace LibreHub.Services
 {
     public class BookService : IBookService
     {
-        public IEnumerable<BookModel> GetBooks()
-        {
-            return new List<BookModel>
-        {
-            new BookModel { Name = "aboba", Title = "Book 1", Description = "Description of Book 1" },
-            new BookModel { Name = "aboba", Title = "Book 2", Description = "Description of Book 2" },
-            new BookModel { Name = "aboba", Title = "Book 3", Description = "Description of Book 3" }
-        };
-        }
-    }
+        private readonly ILogger _logger;
+        private readonly BookRepository _bookRepository;
 
+        public BookService(BookRepository bookRepository, ILoggerFactory loggerFactory)
+        {
+            _logger = loggerFactory.CreateLogger("BookService");
+            _bookRepository = bookRepository;
+        }
+
+
+        public async Task<IEnumerable<BookModel>> GetBooksAsync()
+        {
+            try
+            {
+                var bookDtos = await _bookRepository.GetBooksAsync();
+                return bookDtos.Select(dto => dto.ToModel());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting books");
+                return Enumerable.Empty<BookModel>();
+            }
+        }
+
+
+
+    }
 
 }

@@ -1,9 +1,12 @@
 ﻿using LibreHub.Models;
+using LIbreHubBackend.Models;
 
-namespace LibreHub.Interfaces
+namespace LIbreHubBackend.Interfaces
 {
     public interface IBookService
     {
-        IEnumerable<BookModel> GetBooks();
+        Task<IEnumerable<BookModel>> GetBooksAsync();
+
+
     }
 }

@@ -1,5 +1,8 @@
-using LibreHub.Interfaces;
 using LibreHub.Services;
+using LIbreHubBackend.Domain;
+using LIbreHubBackend.Interfaces;
+using Npgsql;
+using System.Data.Common;
 
 namespace LIbreHubBackend
 {
@@ -9,16 +12,23 @@ namespace LIbreHubBackend
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddSingleton<IBookService, BookService>();
+            // Регистрация подключения как Scoped
+            builder.Services.AddScoped<NpgsqlConnection>(provider =>
+            {
+                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+                return new NpgsqlConnection(connectionString);
+            });
+
+            // Scoped для репозитория и сервиса
+            builder.Services.AddScoped<BookRepository>();
+            builder.Services.AddScoped<IBookService, BookService>();
+
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -26,10 +36,7 @@ namespace LIbreHubBackend
             }
 
             app.UseAuthorization();
-
-
             app.MapControllers();
-
             app.Run();
         }
     }
