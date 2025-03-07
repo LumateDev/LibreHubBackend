@@ -1,10 +1,11 @@
-﻿
-using LIbreHubBackend.Interfaces;
+﻿using LIbreHubBackend.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LibreHub.Controllers
+namespace LIbreHubBackend.Controllers
 {
-
+    /// <summary>
+    /// BookContoller обрабатывает запросы пользователя. API
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class BooksController : ControllerBase
@@ -19,10 +20,10 @@ namespace LibreHub.Controllers
         [HttpGet("/getBooks")]
         public async Task<IActionResult> GetBooksAsync()
         {
-   
+
             var books = await _bookService.GetBooksAsync();
             return Ok(books);
         }
-       
+
     }
 }

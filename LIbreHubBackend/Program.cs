@@ -1,8 +1,7 @@
-using LibreHub.Services;
 using LIbreHubBackend.Domain;
 using LIbreHubBackend.Interfaces;
+using LIbreHubBackend.Services;
 using Npgsql;
-using System.Data.Common;
 
 namespace LIbreHubBackend
 {
@@ -11,18 +10,18 @@ namespace LIbreHubBackend
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            // Регистрация подключения как Scoped
-            builder.Services.AddScoped<NpgsqlConnection>(provider =>
+            // Singltone - живёт весь цилк приложения, это деду надо
+            builder.Services.AddSingleton<NpgsqlConnection>(provider =>
             {
                 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
                 return new NpgsqlConnection(connectionString);
             });
 
-            // Scoped для репозитория и сервиса
-            builder.Services.AddScoped<BookRepository>();
-            builder.Services.AddScoped<IBookService, BookService>();
-
+            builder.Services.AddSingleton<BookRepository>();
+            builder.Services.AddSingleton<IBookService, BookService>();
+            // При регистрации другого репозитория у него может быть свой коннекшн, либо нужно разобраться
+            // чтобы наш 1 коннекш закрывался и открывался в нужные моменты
+            // Чтобы исключить конфликты
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

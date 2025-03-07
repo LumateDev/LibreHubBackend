@@ -1,12 +1,13 @@
-﻿using LibreHub.Models;
-using LIbreHubBackend.Domain;
+﻿using LIbreHubBackend.Domain;
 using LIbreHubBackend.Interfaces;
 using LIbreHubBackend.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections;
 
-namespace LibreHub.Services
+
+namespace LIbreHubBackend.Services
 {
+    /// <summary>
+    /// Реализация бизнес логики работы с кнгиами.
+    /// </summary>
     public class BookService : IBookService
     {
         private readonly ILogger _logger;

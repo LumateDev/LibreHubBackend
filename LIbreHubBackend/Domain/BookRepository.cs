@@ -3,6 +3,9 @@ using Npgsql;
 
 namespace LIbreHubBackend.Domain
 {
+    /// <summary>
+    /// Репозиторий для работы с PostgreSQL
+    /// </summary>
     public class BookRepository
     {
         private readonly NpgsqlConnection _connection;
@@ -15,11 +18,11 @@ namespace LIbreHubBackend.Domain
         {
             const string sql = @"
             SELECT 
-                id, 
+                id,
                 title, 
                 author, 
                 genre, 
-                publication_year, 
+                publication_year,
                 cover 
             FROM books";
 
