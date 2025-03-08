@@ -1,4 +1,5 @@
-﻿using LIbreHubBackend.Interfaces;
+﻿using LibreHub.Models;
+using LIbreHubBackend.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LIbreHubBackend.Controllers
@@ -19,6 +20,13 @@ namespace LIbreHubBackend.Controllers
         {
             var users = await _userService.GetUsersAsync();
             return Ok(users);
+        }
+
+        [HttpPost("/createUser")]
+        public async Task<IActionResult> CreateUserAsync([FromBody] UserModel userModel)
+        {
+            var createdUser = await _userService.CreateUserAsync(userModel);
+            return Ok(createdUser);
         }
     }
 }

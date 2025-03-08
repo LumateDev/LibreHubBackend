@@ -1,4 +1,4 @@
-using LIbreHubBackend.Domain;
+п»їusing LIbreHubBackend.Domain;
 using LIbreHubBackend.Interfaces;
 using LIbreHubBackend.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +11,7 @@ namespace LIbreHubBackend
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            // Singltone - живёт весь цилк приложения, это деду надо
+            // Singltone - Г¦ГЁГўВёГІ ГўГҐГ±Гј Г¶ГЁГ«ГЄ ГЇГ°ГЁГ«Г®Г¦ГҐГ­ГЁГї, ГЅГІГ® Г¤ГҐГ¤Гі Г­Г Г¤Г®
             builder.Services.AddSingleton<NpgsqlConnection>(provider =>
             {
                 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -24,9 +24,9 @@ namespace LIbreHubBackend
             builder.Services.AddSingleton<IBookService, BookService>();
             builder.Services.AddSingleton<IUserService, UserService>();
             builder.Services.AddSingleton<IGroupService, GroupService>();
-            // При регистрации другого репозитория у него может быть свой коннекшн, либо нужно разобраться
-            // чтобы наш 1 коннекш закрывался и открывался в нужные моменты
-            // Чтобы исключить конфликты
+            // ГЏГ°ГЁ Г°ГҐГЈГЁГ±ГІГ°Г Г¶ГЁГЁ Г¤Г°ГіГЈГ®ГЈГ® Г°ГҐГЇГ®Г§ГЁГІГ®Г°ГЁГї Гі Г­ГҐГЈГ® Г¬Г®Г¦ГҐГІ ГЎГ»ГІГј Г±ГўГ®Г© ГЄГ®Г­Г­ГҐГЄГёГ­, Г«ГЁГЎГ® Г­ГіГ¦Г­Г® Г°Г Г§Г®ГЎГ°Г ГІГјГ±Гї
+            // Г·ГІГ®ГЎГ» Г­Г Гё 1 ГЄГ®Г­Г­ГҐГЄГё Г§Г ГЄГ°Г»ГўГ Г«Г±Гї ГЁ Г®ГІГЄГ°Г»ГўГ Г«Г±Гї Гў Г­ГіГ¦Г­Г»ГҐ Г¬Г®Г¬ГҐГ­ГІГ»
+            // Г—ГІГ®ГЎГ» ГЁГ±ГЄГ«ГѕГ·ГЁГІГј ГЄГ®Г­ГґГ«ГЁГЄГІГ»
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

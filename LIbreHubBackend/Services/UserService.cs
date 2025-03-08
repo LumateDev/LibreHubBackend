@@ -28,5 +28,20 @@ namespace LIbreHubBackend.Services
                 return Enumerable.Empty<UserModel>();
             }
         }
+
+        public async Task<UserModel> CreateUserAsync(UserModel userModel)
+        {
+            try
+            {
+                var userDto = userModel.ToDTO();
+                var createdUser = await _userRepository.AddUserAsync(userDto);
+                return createdUser.ToModel();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating user!");
+                throw; // Перебрасываем исключение для обработки в контроллере
+            }
+        }
     }
 }
