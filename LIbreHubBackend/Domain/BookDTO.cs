@@ -29,7 +29,7 @@ namespace LIbreHubBackend.Domain
             Title = Title,
             Author = Author,
             Genre = Genre,
-            Publication_Year = Publication_Year,
+            PublicationYear = Publication_Year,
             Cover = Cover
         };
     }

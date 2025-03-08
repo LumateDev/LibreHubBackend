@@ -8,7 +8,7 @@ namespace LIbreHubBackend.Models
         public string Title { get; set; }
         public string Author { get; set; }
         public string Genre { get; set; }
-        public int Publication_Year { get; set; }
+        public int PublicationYear { get; set; }
         public byte[] Cover { get; set; }
 
 
@@ -20,7 +20,7 @@ namespace LIbreHubBackend.Models
             Title = Title,
             Author = Author,
             Genre = Genre,
-            Publication_Year = Publication_Year,
+            Publication_Year = PublicationYear,
             Cover = Cover
         };
     }
