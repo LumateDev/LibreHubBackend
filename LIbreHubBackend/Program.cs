@@ -20,8 +20,10 @@ namespace LIbreHubBackend
 
             builder.Services.AddSingleton<BookRepository>();
             builder.Services.AddSingleton<UserRepository>();
+            builder.Services.AddSingleton<GroupRepository>();
             builder.Services.AddSingleton<IBookService, BookService>();
             builder.Services.AddSingleton<IUserService, UserService>();
+            builder.Services.AddSingleton<IGroupService, GroupService>();
             // При регистрации другого репозитория у него может быть свой коннекшн, либо нужно разобраться
             // чтобы наш 1 коннекш закрывался и открывался в нужные моменты
             // Чтобы исключить конфликты

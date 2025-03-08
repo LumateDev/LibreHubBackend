@@ -15,7 +15,7 @@ namespace LIbreHubBackend.Domain
         public async Task<IEnumerable<UserDTO>> GetUsersAsync()
         {
             const string sql = @"
-            Select
+            SELECT
                 id,
                 name,
                 email,
