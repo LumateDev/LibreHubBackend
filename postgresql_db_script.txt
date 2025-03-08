@@ -1,0 +1,105 @@
+-- Таблица пользователей
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL
+);
+
+-- Таблица книг (обновленная)
+CREATE TABLE books (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    genre VARCHAR(255) NOT NULL,
+    publication_year INT NOT NULL,
+    cover BYTEA
+);
+
+-- Таблица коллекций
+CREATE TABLE collections (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Таблица связи книг и коллекций (многие ко многим)
+CREATE TABLE book_collection (
+    book_id INT NOT NULL,
+    collection_id INT NOT NULL,
+    PRIMARY KEY (book_id, collection_id),
+    FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE,
+    FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE
+);
+
+-- Таблица групп
+CREATE TABLE groups (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    created_by INT NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Таблица связи пользователей и групп (многие ко многим)
+CREATE TABLE user_group (
+    user_id INT NOT NULL,
+    group_id INT NOT NULL,
+    PRIMARY KEY (user_id, group_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE
+);
+
+-- Таблица связи книг и групп (многие ко многим)
+CREATE TABLE book_group (
+    book_id INT NOT NULL,
+    group_id INT NOT NULL,
+    PRIMARY KEY (book_id, group_id),
+    FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE,
+    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE
+);
+
+-- Добавляем пользователей
+INSERT INTO users (name, email, password_hash) VALUES
+('John Doe', 'user1@example.com', 'hashed_password_1'),
+('Jane Smith', 'user2@example.com', 'hashed_password_2');
+
+-- Добавляем книги
+INSERT INTO books (title, author, genre, publication_year) VALUES
+('1984', 'George Orwell', 'Dystopian', 1949),
+('To Kill a Mockingbird', 'Harper Lee', 'Classic', 1960),
+('The Great Gatsby', 'F. Scott Fitzgerald', 'Classic', 1925),
+('Pride and Prejudice', 'Jane Austen', 'Romance', 1813),
+('The Catcher in the Rye', 'J.D. Salinger', 'Coming-of-age', 1951);
+
+-- Добавляем коллекции
+INSERT INTO collections (user_id, name, description) VALUES
+(1, 'My Favorite Classics', 'A collection of my favorite classic books.'),
+(2, 'Dystopian Novels', 'Books that explore dystopian worlds.');
+
+-- Добавляем книги в коллекции
+INSERT INTO book_collection (book_id, collection_id) VALUES
+(2, 1), -- To Kill a Mockingbird в коллекции My Favorite Classics
+(3, 1), -- The Great Gatsby в коллекции My Favorite Classics
+(1, 2), -- 1984 в коллекции Dystopian Novels
+(4, 1); -- Pride and Prejudice в коллекции My Favorite Classics
+
+-- Создаем группы
+INSERT INTO groups (name, description, created_by) VALUES
+('Classic Lovers', 'A group for fans of classic literature.', 1),
+('Dystopia Fans', 'A group for discussing dystopian novels.', 2);
+
+-- Добавляем пользователей в группы
+INSERT INTO user_group (user_id, group_id) VALUES
+(1, 1), -- user1 в группе Classic Lovers
+(2, 1), -- user2 в группе Classic Lovers
+(2, 2); -- user2 в группе Dystopia Fans
+
+-- Добавляем книги в группы
+INSERT INTO book_group (book_id, group_id) VALUES
+(2, 1), -- To Kill a Mockingbird в группе Classic Lovers
+(3, 1), -- The Great Gatsby в группе Classic Lovers
+(1, 2); -- 1984 в группе Dystopia Fans

@@ -19,7 +19,7 @@ namespace LIbreHubBackend.Domain
         public string Genre { get; set; }
 
         [Column("publication_year")] // Т.к daper не может явно привести PublicationYear к snake_case
-        public int PublicationYear { get; set; }
+        public int Publication_Year { get; set; }
 
         public byte[] Cover { get; set; }
 
@@ -29,7 +29,7 @@ namespace LIbreHubBackend.Domain
             Title = Title,
             Author = Author,
             Genre = Genre,
-            PublicationYear = PublicationYear,
+            Publication_Year = Publication_Year,
             Cover = Cover
         };
     }
