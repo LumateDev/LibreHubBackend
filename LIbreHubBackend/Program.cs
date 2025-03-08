@@ -1,6 +1,7 @@
 using LIbreHubBackend.Domain;
 using LIbreHubBackend.Interfaces;
 using LIbreHubBackend.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 
 namespace LIbreHubBackend
@@ -18,7 +19,9 @@ namespace LIbreHubBackend
             });
 
             builder.Services.AddSingleton<BookRepository>();
+            builder.Services.AddSingleton<UserRepository>();
             builder.Services.AddSingleton<IBookService, BookService>();
+            builder.Services.AddSingleton<IUserService, UserService>();
             // При регистрации другого репозитория у него может быть свой коннекшн, либо нужно разобраться
             // чтобы наш 1 коннекш закрывался и открывался в нужные моменты
             // Чтобы исключить конфликты

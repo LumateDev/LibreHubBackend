@@ -1,4 +1,5 @@
-﻿using Npgsql;
+﻿using Dapper;
+using Npgsql;
 
 namespace LIbreHubBackend.Domain
 {
@@ -9,6 +10,19 @@ namespace LIbreHubBackend.Domain
         public UserRepository(NpgsqlConnection connection)
         {
             _connection = connection;
+        }
+
+        public async Task<IEnumerable<UserDTO>> GetUsersAsync()
+        {
+            const string sql = @"
+            Select
+                id,
+                name,
+                email,
+                password_hash
+            FROM users";
+
+            return await _connection.QueryAsync<UserDTO>(sql);
         }
     }
 }

@@ -20,7 +20,6 @@ namespace LIbreHubBackend.Controllers
         [HttpGet("/getBooks")]
         public async Task<IActionResult> GetBooksAsync()
         {
-
             var books = await _bookService.GetBooksAsync();
             return Ok(books);
         }

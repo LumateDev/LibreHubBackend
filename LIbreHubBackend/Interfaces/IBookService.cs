@@ -9,7 +9,5 @@ namespace LIbreHubBackend.Interfaces
     public interface IBookService
     {
         Task<IEnumerable<BookModel>> GetBooksAsync();
-
-
     }
 }

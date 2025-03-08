@@ -9,6 +9,7 @@ namespace LIbreHubBackend.Domain
     public class BookRepository
     {
         private readonly NpgsqlConnection _connection;
+
         public BookRepository(NpgsqlConnection connection)
         {
             _connection = connection;
